@@ -1,0 +1,12 @@
+Customer,Account,Amount,Hour,Device,Location,Risk,Status,Reason,Date
+Sunita Rao,ACC-1002,450,2,Known,Mumbai,1,✅ APPROVED,Nominal behavior,
+Sunita Rao,ACC-1002,450,14,Known,Mumbai,0,✅ APPROVED,Nominal behavior,
+Rajesh Sharma,ACC-1001,12500,14,Known,Mumbai,96,🚨 HIGH RISK,Unusually high volume,
+Rajesh Sharma,ACC-1001,15000,14,Known,Mumbai,96,🚨 HIGH RISK,Unusually high volume,
+Rajesh Sharma,ACC-1001,150,14,Known,Mumbai,0,✅ APPROVED,Nominal behavior,
+Rajesh Sharma,ACC-1001,12500,2,Known,Mumbai,99,🚨 HIGH RISK,"Unusually high volume, Anomalous late-night window",
+Rajesh Sharma,ACC-1001,12500,2,Unknown,Mumbai,100,🚨 HIGH RISK,"Unusually high volume, Anomalous late-night window, Unrecognized hardware signature",
+Rajesh Sharma,ACC-1001,12500,2,Known,Mumbai,99,🚨 HIGH RISK,"Unusually high volume, Anomalous late-night window",
+john,ACC-889922,2500,4,Known,Bangalore,67,🚨 HIGH RISK,"Unusually high volume, Anomalous late-night window",
+anam,ACC-99123,20000,3,Known,Delhi,42,⚠️ SUSPICIOUS,Standard heuristic trigger - verify manually,
+sarah,ACC-089,25000,2,Unknown,Hyderabad,96,🚨 HIGH RISK,"Unusually high volume, Anomalous late-night window, Unrecognized hardware signature",

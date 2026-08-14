@@ -1,0 +1,140 @@
+=========================================
+  FRAUD DETECTION SYSTEM - USER REPORT   
+=========================================
+
+Account Email: riyazsk123456@gmail.com
+Total Transactions: 11
+
+-----------------------------------------
+Transaction #1
+  Customer: Sunita Rao
+  Account: ACC-1002
+  Amount: $450
+  Hour: 2:00
+  Device: Known
+  Location: Mumbai
+  Risk: 1%
+  Status: ✅ APPROVED
+  Reason: Nominal behavior
+  Date: None
+-----------------------------------------
+Transaction #2
+  Customer: Sunita Rao
+  Account: ACC-1002
+  Amount: $450
+  Hour: 14:00
+  Device: Known
+  Location: Mumbai
+  Risk: 0%
+  Status: ✅ APPROVED
+  Reason: Nominal behavior
+  Date: None
+-----------------------------------------
+Transaction #3
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $12500
+  Hour: 14:00
+  Device: Known
+  Location: Mumbai
+  Risk: 96%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume
+  Date: None
+-----------------------------------------
+Transaction #4
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $15000
+  Hour: 14:00
+  Device: Known
+  Location: Mumbai
+  Risk: 96%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume
+  Date: None
+-----------------------------------------
+Transaction #5
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $150
+  Hour: 14:00
+  Device: Known
+  Location: Mumbai
+  Risk: 0%
+  Status: ✅ APPROVED
+  Reason: Nominal behavior
+  Date: None
+-----------------------------------------
+Transaction #6
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $12500
+  Hour: 2:00
+  Device: Known
+  Location: Mumbai
+  Risk: 99%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume, Anomalous late-night window
+  Date: None
+-----------------------------------------
+Transaction #7
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $12500
+  Hour: 2:00
+  Device: Unknown
+  Location: Mumbai
+  Risk: 100%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume, Anomalous late-night window, Unrecognized hardware signature
+  Date: None
+-----------------------------------------
+Transaction #8
+  Customer: Rajesh Sharma
+  Account: ACC-1001
+  Amount: $12500
+  Hour: 2:00
+  Device: Known
+  Location: Mumbai
+  Risk: 99%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume, Anomalous late-night window
+  Date: None
+-----------------------------------------
+Transaction #9
+  Customer: john
+  Account: ACC-889922
+  Amount: $2500
+  Hour: 4:00
+  Device: Known
+  Location: Bangalore
+  Risk: 67%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume, Anomalous late-night window
+  Date: None
+-----------------------------------------
+Transaction #10
+  Customer: anam
+  Account: ACC-99123
+  Amount: $20000
+  Hour: 3:00
+  Device: Known
+  Location: Delhi
+  Risk: 42%
+  Status: ⚠️ SUSPICIOUS
+  Reason: Standard heuristic trigger - verify manually
+  Date: None
+-----------------------------------------
+Transaction #11
+  Customer: sarah
+  Account: ACC-089
+  Amount: $25000
+  Hour: 2:00
+  Device: Unknown
+  Location: Hyderabad
+  Risk: 96%
+  Status: 🚨 HIGH RISK
+  Reason: Unusually high volume, Anomalous late-night window, Unrecognized hardware signature
+  Date: None
+-----------------------------------------

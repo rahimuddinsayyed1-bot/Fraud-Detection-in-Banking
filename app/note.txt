@@ -1,0 +1,32 @@
+Go back to the VS Code terminal where the project is running.
+
+Press:
+
+CTRL + C
+
+You may see:
+
+Terminate batch job (Y/N)?
+
+Type:
+
+Y
+
+Press Enter.
+
+Server stops.
+
+You’ll return to:
+
+PS C:\...\FraudDetection>
+
+Now the website will no longer open because the Flask server has stopped.
+
+To start again later:
+ (venv) PS F:\FraudDetection>  python train_v2.py
+>>
+⚙️ Generating synthetic banking dataset...
+🧠 Training RandomForest v2.0 AI Engine...
+✅ Model trained successfully! Saved to 'model\fraud_model_v2.pkl'
+(venv) PS F:\FraudDetection> python app/database.py
+(venv) PS F:\FraudDetection> python app/dashboard.py                                        

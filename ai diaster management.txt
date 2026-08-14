@@ -1,0 +1,35 @@
+can u give the full description that how i can run the project in the vs code in the terminal 
+10:53 AM
+To run the project yourself using the VS Code integrated terminal, you'll need to open two separate terminal tabs—one for the backend and one for the frontend.
+
+Here are the step-by-step instructions:
+
+1. Start the Backend API (Terminal 1)
+Open a new terminal in VS Code (Ctrl + `).
+Ensure you are in the project root directory:
+powershell
+cd "f:\AI Disaster Response & Emergency Intelligence System"
+Activate the Python virtual environment:
+powershell
+.\.venv\Scripts\activate
+Start the FastAPI backend server:
+powershell
+python backend\main.py
+The backend should now be running at http://localhost:8000.
+
+2. Start the Frontend Application (Terminal 2)
+Open a second terminal tab (click the + icon in the terminal panel).
+Navigate into the frontend directory:
+powershell
+cd "f:\AI Disaster Response & Emergency Intelligence System\frontend"
+(Optional) If you haven't installed the Node dependencies yet, run:
+powershell
+npm install
+Start the frontend development server:
+powershell
+node node_modules\vite\bin\vite.js
+Note on Windows Paths: Because your root folder name contains an ampersand (&), running the standard npm run dev command might throw an error like  'Emergency' is not recognized. Running vite directly using the command above bypasses this issue. Alternatively, you could rename your root folder to remove the & (e.g., AI_Disaster_Response), after which npm run dev will work normally.
+
+The frontend should now be running at http://localhost:5173. Open this link in your browser to view the application!
+
+

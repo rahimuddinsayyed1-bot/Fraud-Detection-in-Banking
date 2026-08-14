@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard - Fraud Detection AI</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <div class="sidebar">
+
+        <h2>🛡️ Fraud AI</h2>
+
+        <ul>
+
+            <li id="nav-dashboard" class="active" onclick="showSection('dashboard')">📊 Dashboard Overview</li>
+
+            <li id="nav-transaction" onclick="showSection('transaction')">💳 Detect Fraud</li>
+
+            <li id="nav-history" onclick="showSection('history')">📜 Transaction History</li>
+
+            <li id="nav-report" onclick="showSection('report')">📈 Analytics & Reports</li>
+
+            <li onclick="location.href='/profile'">👤 Profile</li>
+
+            <li onclick="if(confirmLogout()) location.href='/logout'">🚪 Logout</li>
+
+        </ul>
+
+    </div>
+
+    <!-- Main -->
+
+    <div class="main">
+
+        <div class="topbar">
+
+            <h2><span id="welcomeText" data-text="Welcome, {{ name }}"></span><span class="cursor">|</span></h2>
+
+            <div class="topbar-right" style="display: flex; align-items: center; gap: 15px;">
+                <div class="radar-mini">
+                    <div class="sweep"></div>
+                </div>
+                <div id="clock">--:--:--</div>
+            </div>
+
+        </div>
+
+        <!-- Dashboard Section -->
+
+        <div id="dashboard" class="page">
+
+            <div class="cards">
+
+                <div class="card shimmer-card">
+
+                    <h1 id="totalCounter">{{ total }}</h1>
+
+                    <p>Total Transactions</p>
+
+                </div>
+
+                <div class="card card-fraud shimmer-card">
+
+                    <h1 id="fraudCounter">{{ fraud }}</h1>
+
+                    <p>High Risk / Fraud</p>
+
+                </div>
+
+                <div class="card card-safe shimmer-card">
+
+                    <h1 id="safeCounter">{{ safe }}</h1>
+
+                    <p>Approved / Safe</p>
+
+                </div>
+
+                <div class="card card-suspicious shimmer-card">
+
+                    <h1>{{ avg }}%</h1>
+
+                    <p>Average Risk Score</p>
+
+                </div>
+
+            </div>
+
+            <!-- Charts Grid -->
+
+            <div class="charts-grid">
+
+                <div class="chart-card">
+
+                    <h3>📍 Transactions by Location</h3>
+
+                    <canvas id="riskChart"></canvas>
+
+                </div>
+
+                <div class="chart-card">
+
+                    <h3>⚖️ Risk Classification Breakdown</h3>
+
+                    <canvas id="pieChart"></canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- New Transaction Section -->
+
+        <div id="transaction" class="page hidden">
+
+            <div class="detection-container">
+
+                <div class="form-card">
+
+                    <h2>Evaluate New Transaction</h2>
+
+                    <p>Submit transaction vectors for real-time ML risk scoring</p>
+
+                    <form id="predictForm" action="/predict" method="POST">
+
+                        <div class="form-group">
+                            <label>Customer Name</label>
+                            <input type="text" name="customer_name" placeholder="e.g. Alice Johnson" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" name="account_number" placeholder="e.g. ACC-889922" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Transaction Amount ($)</label>
+                            <input type="number" step="any" name="amount" placeholder="e.g. 1500.00" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Transaction Hour (0 - 23)</label>
+                            <input type="number" min="0" max="23" name="hour" placeholder="e.g. 3 (for 3:00 AM)" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Hardware Signature</label>
+                            <select name="device">
+                                <option value="1">Known / Trusted Device</option>
+                                <option value="0">Unrecognized / New Device</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Location City</label>
+                            <select name="location">
+                                <option>Mumbai</option>
+                                <option>Delhi</option>
+                                <option>Bangalore</option>
+                                <option>Hyderabad</option>
+                                <option>Chennai</option>
+                                <option>Kolkata</option>
+                                <option>Pune</option>
+                                <option>Ahmedabad</option>
+                                <option>Jaipur</option>
+                                <option>Surat</option>
+                                <option>Lucknow</option>
+                                <option>Chandigarh</option>
+                                <option>Noida</option>
+                                <option>Gurgaon</option>
+                                <option>Kochi</option>
+                                <option>Indore</option>
+                                <option>Bhopal</option>
+                                <option>Nagpur</option>
+                                <option>Coimbatore</option>
+                                <option>Visakhapatnam</option>
+                                <option>Patna</option>
+                                <option>Vadodara</option>
+                                <option>Ludhiana</option>
+                                <option>Agra</option>
+                                <option>Nashik</option>
+                            </select>
+
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="pulse-button">
+                            <span id="btnText">⚡ Detect Fraud Risk</span>
+                            <span id="btnLoader" class="hidden spinner"></span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+                <!-- Prediction Result Display -->
+
+                <div class="result-card">
+
+                    {% if result %}
+
+                        {% if "HIGH" in result.status %}
+                            <div class="result-badge badge-fraud">
+                                {{ result.status }}
+                            </div>
+                        {% elif "SUSPICIOUS" in result.status %}
+                            <div class="result-badge badge-suspicious">
+                                {{ result.status }}
+                            </div>
+                        {% else %}
+                            <div class="result-badge badge-safe">
+                                {{ result.status }}
+                            </div>
+                        {% endif %}
+
+                        <div class="result-score">{{ result.risk }}</div>
+
+                        <div class="result-score-label">Evaluated Machine Learning Risk Index</div>
+
+                        <div class="result-reason-box">
+                            <strong>AI Vector Analysis / Reason:</strong>
+                            <p>{{ result.reason }}</p>
+                        </div>
+
+                    {% else %}
+
+                        <div style="font-size: 3.5rem; margin-bottom: 16px;">🔍</div>
+
+                        <h3 style="color: var(--text-main); margin-bottom: 8px;">Awaiting Transaction</h3>
+
+                        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 280px;">
+                            Fill in the transaction details on the left and click <strong>Detect Fraud Risk</strong> to analyze.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- History Section -->
+
+        <div id="history" class="page hidden">
+
+            <h2 style="margin-bottom: 16px;">Transaction Audit Log</h2>
+
+            <input
+            type="text"
+            id="searchInput"
+            class="search-box"
+            placeholder="🔍 Search by customer, account, city, status..."
+            onkeyup="searchTable()">
+
+            <div class="table-container">
+
+                <table id="transactionTable">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Customer</th>
+
+                            <th>Account</th>
+
+                            <th>Amount</th>
+
+                            <th>City</th>
+
+                            <th>Status</th>
+
+                            <th>Risk Score</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for row in rows %}
+
+                        <tr>
+
+                            <td>#{{ row.id }}</td>
+
+                            <td><strong>{{ row.customer_name if row.customer_name else 'N/A' }}</strong></td>
+
+                            <td style="font-family: monospace;">{{ row.account_number if row.account_number else 'N/A' }}</td>
+
+                            <td>${{ row.amount }}</td>
+
+                            <td>{{ row.city }}</td>
+
+                            <td>
+
+                                {% if "HIGH" in row.status %}
+                                    <span class="status-pill pill-fraud">{{ row.status }}</span>
+                                {% elif "SUSPICIOUS" in row.status %}
+                                    <span class="status-pill pill-suspicious">{{ row.status }}</span>
+                                {% else %}
+                                    <span class="status-pill pill-safe">{{ row.status }}</span>
+                                {% endif %}
+
+                            </td>
+
+                            <td><strong>{{ row.risk }}%</strong></td>
+
+                        </tr>
+
+                        {% else %}
+
+                        <tr>
+
+                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                                No transactions recorded yet. Submit a new transaction above to begin!
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- Reports Section -->
+
+        <div id="report" class="page hidden">
+
+            <h2 style="margin-bottom: 8px;">Fraud Analytics & Export</h2>
+
+            <p style="color: var(--text-muted); margin-bottom: 24px;">Generate structured reports and audit logs</p>
+
+            <div class="cards" style="margin-bottom: 24px;">
+
+                <div class="card">
+
+                    <h3>📊 Total Evaluated</h3>
+
+                    <h1 style="margin-top: 10px;">{{ total }}</h1>
+
+                </div>
+
+                <div class="card card-fraud">
+
+                    <h3>🚨 High Risk Rate</h3>
+
+                    <h1 style="margin-top: 10px;">{{ fraud }}</h1>
+
+                </div>
+
+            </div>
+
+            <div style="display: flex; gap: 16px;">
+
+                <a href="/export/csv">
+
+                    <button style="padding: 12px 24px; background: var(--primary-gradient); color: white; border: none; border-radius: var(--radius-md); font-weight: 600; cursor: pointer;">
+                        📥 Download CSV Audit Log
+                    </button>
+
+                </a>
+
+                <a href="/export/pdf">
+
+                    <button style="padding: 12px 24px; background: rgba(255, 255, 255, 0.08); color: white; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-weight: 600; cursor: pointer;">
+                        📄 Download Report (TXT)
+                    </button>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Embed Backend Data safely for Chart.js -->
+<script>
+    window.LOCATION_LABELS = {{ labels | safe if labels else '[]' }};
+    window.LOCATION_VALUES = {{ values | safe if values else '[]' }};
+    window.PIE_DATA = {{ pie_data | safe if pie_data else '[0,0,0]' }};
+    window.ACTIVE_TAB = "{{ active_tab if active_tab else 'dashboard' }}";
+</script>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<footer>
+© 2026 Fraud Detection System | Powered by Machine Learning & Python
+</footer>
+
+</body>
+
+</html>
