@@ -1,2 +1,13 @@
+[project]
+name = "fraud-detection-banking"
+version = "0.1.0"
+dependencies = [
+    "flask",
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn"
+]
+
 [tool.vercel]
 entrypoint = "app.dashboard:app"
